@@ -5,8 +5,10 @@
     <property name="classes.dir"    value="${build.dir}/classes" />
     <property name="test.dir"       value="tests" />
 
+    <!--region -->
     <target name="clean" description="Clean">
         <delete dir="${build.dir}" />
+        <mkdir dir="${build.dir}" />
     </target>
 
     <target name="compile" description="Compile">
@@ -15,16 +17,26 @@
         <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="true" debug="true">
         </javac>
     </target>
+    <!--endregion-->
 
-    <target name="compileTest" description="Compile tests">
+    <!--region Order Statistics-->
+    <target name="compileOrderStatistics" description="Compile tests">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="com/inforscience/OrderStatistics.java" />
+        </javac>
+
         <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
             <classpath>
                 <pathelement location="${classes.dir}" />
             </classpath>
+            <include name="OrderStatisticsTest.java" />
         </javac>
     </target>
 
-    <target name="test" depends="compile,compileTest" description="Run tests">
+    <target name="OrderStatisticsTest" depends="compileOrderStatistics" description="Run tests">
         <junit>
             <classpath>
                 <pathelement location="${classes.dir}" />
@@ -33,11 +45,46 @@
 
             <batchtest>
                 <fileset dir="${build.dir}">
-                    <include name="**/*Test*" />
+                    <include name="OrderStatisticsTest*" />
                 </fileset>
             </batchtest>
             <formatter type="plain" usefile="false" />
         </junit>
     </target>
+    <!--endregion-->
+
+    <!--region Read Last Lines-->
+    <target name="compileReadLastLines" description="Compile tests">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="com/inforscience/ReadLastLines.java" />
+        </javac>
+
+        <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="ReadLastLinesTest.java" />
+        </javac>
+    </target>
+
+    <target name="ReadLastLinesTest" depends="compileReadLastLines" description="Run tests">
+        <junit>
+            <classpath>
+                <pathelement location="${classes.dir}" />
+                <pathelement location="${build.dir}" />
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${build.dir}">
+                    <include name="ReadLastLinesTest*" />
+                </fileset>
+            </batchtest>
+            <formatter type="plain" usefile="false" />
+        </junit>
+    </target>
+    <!--endregion-->
 </project>
 

@@ -4,7 +4,7 @@ import org.junit.Assert;
 
 import com.inforscience.OrderStatistics;
 
-public class TestOrderStatistics {
+public class OrderStatisticsTest {
     @Test
     public void findK()
     {
