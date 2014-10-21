@@ -86,5 +86,39 @@
         </junit>
     </target>
     <!--endregion-->
+
+    <!--region Read Last Lines-->
+    <target name="compileNumberOf2s" description="Compile tests">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="com/inforscience/NumberOf2s.java" />
+        </javac>
+
+        <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="NumberOf2sTest.java" />
+        </javac>
+    </target>
+
+    <target name="NumberOf2sTest" depends="compileNumberOf2s" description="Run tests">
+        <junit>
+            <classpath>
+                <pathelement location="${classes.dir}" />
+                <pathelement location="${build.dir}" />
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${build.dir}">
+                    <include name="NumberOf2sTest*" />
+                </fileset>
+            </batchtest>
+            <formatter type="plain" usefile="false" />
+        </junit>
+    </target>
+    <!--endregion-->
 </project>
 
