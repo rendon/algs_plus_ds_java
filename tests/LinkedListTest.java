@@ -1,5 +1,7 @@
 import org.junit.*;
 
+import com.inforscience.LinkedList;
+
 public class LinkedListTest {
     @Test
     public void testAddAndRemoveFromLinkedList() {

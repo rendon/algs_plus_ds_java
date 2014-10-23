@@ -1,39 +1,35 @@
+package com.inforscience;
 import java.util.*;
 
+/** Double-linked list.*/
 public class LinkedList<E> {
-    private class Node<E> {
-        private E e;
+    private static class Node<E> {
+        private E item;
         private Node<E> next;
-        Node() {
-            next = null;
-        }
-
-        Node(E e) {
-            this.e = e;
-            next = null;
+        private Node<E> prev;
+        Node(Node<E> prev, E element, Node<E> next) {
+            this.prev = prev;
+            this.item = element;
+            this.next = next;
         }
     }
 
-    private Node<E> head, tail;
-    private int size;
+    private Node<E> first, last;
+    private int size = 0;
     public LinkedList() {
-        head = null;
-        tail = null;
-        size = 0;
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
     public void addLast(E e) {
-        Node<E> node = new Node<E>(e);
-        if (tail == null) { // Empty list
-            head = node;
-            tail = node;
+        Node<E> l = last;
+        last = new Node<E>(l, e, null);
+        if (l == null) {
+            first = last;
         } else {
-            tail.next = node;
-            tail = node;
+            l.next = last;
         }
         size++;
     }
@@ -43,30 +39,30 @@ public class LinkedList<E> {
     }
 
     public void addFirst(E e) {
-        Node<E> node = new Node<E>(e);
-        if (head == null) {
-            head = node;
-            tail = node;
+        Node<E> f = first;
+        first = new Node<E>(null, e, f);
+        if (f == null) {
+            last = first;
         } else {
-            node.next = head;
-            head = node;
+            f.prev = first;
         }
         size++;
     }
 
     public E removeFirst() {
-        if (head == null) {
+        if (first == null) {
             throw new NoSuchElementException();
         }
 
-        E e = head.e;
-        if (head == tail) {
-            head = null;
-            tail = null;
+        E e = first.item;
+        Node<E> next = first.next;
+        first.item = null; // It might help the GC :)
+        first.next = null;
+        first = next;
+        if (next == null) {
+            last = null;
         } else {
-            Node<E> next = head.next;
-            head = null;
-            head = next;
+            next.prev = null;
         }
 
         size--;
@@ -78,65 +74,86 @@ public class LinkedList<E> {
     }
 
     public E removeLast() {
-        if (tail == null) {
+        if (last == null) {
             throw new NoSuchElementException();
         }
 
-        E e = tail.e;
-        if (head == tail) {
-            head = null;
-            tail = null;
+        E e = last.item;
+        Node<E> prev = last.prev;
+        last.item = null; // It might help the GC :)
+        last.prev = null;
+        last = prev;
+        if (prev == null) {
+            first = null;
         } else {
-            Node<E> node = head;
-            while (node.next != tail) {
-                node = node.next;
-            }
-
-            node.next = tail.next;
-            tail = null;
-            tail = node;
+            prev.next = null;
         }
 
         size--;
         return e;
     }
 
-    public boolean remove(Object o) {
-        if (head == null) {
-            return false;
+    private void unlink(Node<E> x) {
+        //assert x != null;
+        Node<E> prev = x.prev;
+        Node<E> next = x.next;
+        if (prev == null) {
+            first = next;
+        } else {
+            prev.next = next;
         }
 
-        Node<E> node = head;
-        while (node.next != null && !node.next.e.equals(o)) {
-            node = node.next;
+        if (next == null) {
+            last = prev;
+        } else {
+            next.prev = prev;
         }
 
-        if (node.next == null) {
-            return false;
-        }
-
-        Node<E> next = node.next;
-        node.next = next.next;
-        next = null;
-
+        // It might help the GC, optional.
+        x.item = null;
+        x.prev = null;
+        x.next = null;
         size--;
-        return true;
+    }
+
+    public boolean remove(Object o) {
+        if (first == null) {
+            return false;
+        }
+
+        if (o == null) {
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (x.item == null) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        } else {
+            for (Node<E> x = first; x != null; x = x.next) {
+                if (o.equals(x.item)) {
+                    unlink(x);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     public E getFirst() {
-        if (head == null) {
+        if (first == null) {
             throw new NoSuchElementException();
         }
 
-        return head.e;
+        return first.item;
     }
 
     public E getLast() {
-        if (tail == null) {
+        if (last == null) {
             throw new NoSuchElementException();
         }
 
-        return tail.e;
+        return last.item;
     }
 
     public E get(int index) {
@@ -144,12 +161,12 @@ public class LinkedList<E> {
             throw new IndexOutOfBoundsException();
         }
 
-        Node<E> node = head;
+        Node<E> node = first;
         while (node != null && index > 0) {
             node = node.next;
             index--;
         }
 
-        return node.e;
+        return node.item;
     }
 }
