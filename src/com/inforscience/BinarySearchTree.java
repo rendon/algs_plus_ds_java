@@ -38,16 +38,27 @@ public class BinarySearchTree<E extends Comparable<E>> {
     public void bfs() {
         if (root == null) { return; }
         LinkedList<Node<E>> Q = new LinkedList<Node<E>>();
+        LinkedList<Integer> L = new LinkedList<Integer>();
         Q.add(root);
+        L.add(1);
+        int prev = 0;
         while (!Q.isEmpty()) {
             Node<E> next = Q.removeFirst();
+            int level = L.removeFirst();
+            if (level != prev) {
+                System.out.println();
+            }
             System.out.print(next.item + " ");
+            prev = level;
+
             if (next.left != null) {
                 Q.add(next.left);
+                L.add(level + 1);
             }
 
             if (next.right != null) {
                 Q.add(next.right);
+                L.add(level + 1);
             }
         }
     }
