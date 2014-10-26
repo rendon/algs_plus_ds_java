@@ -264,6 +264,7 @@
                 <pathelement location="${classes.dir}" />
             </classpath>
             <include name="com/inforscience/HashTable.java" />
+            <include name="com/inforscience/HashTableLP.java" />
         </javac>
 
         <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
