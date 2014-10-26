@@ -61,6 +61,8 @@ public class BinarySearchTree<E extends Comparable<E>> {
                 L.add(level + 1);
             }
         }
+
+        System.out.println("Levels = " + prev);
     }
 
     private void dfs(Node<E> node) {

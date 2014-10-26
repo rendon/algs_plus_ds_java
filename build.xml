@@ -222,5 +222,39 @@
         </junit>
     </target>
     <!--endregion-->
+
+    <!--region Balanced Binary Search Tree-->
+    <target name="compileBBST" description="Compile tests">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="com/inforscience/BalancedBinarySearchTree.java" />
+        </javac>
+
+        <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="BalancedBinarySearchTreeTest.java" />
+        </javac>
+    </target>
+
+    <target name="BalancedBinarySearchTreeTest" depends="compileBBST" description="Run tests">
+        <junit>
+            <classpath>
+                <pathelement location="${classes.dir}" />
+                <pathelement location="${build.dir}" />
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${build.dir}">
+                    <include name="BalancedBinarySearchTreeTest*" />
+                </fileset>
+            </batchtest>
+            <formatter type="plain" usefile="false" />
+        </junit>
+    </target>
+    <!--endregion-->
 </project>
 
