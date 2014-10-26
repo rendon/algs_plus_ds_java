@@ -87,7 +87,7 @@
     </target>
     <!--endregion-->
 
-    <!--region Read Last Lines-->
+    <!--region NumberOf2s-->
     <target name="compileNumberOf2s" description="Compile tests">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
             <classpath>
@@ -121,7 +121,7 @@
     </target>
     <!--endregion-->
 
-    <!--region Read Last Lines-->
+    <!--region LinkedList -->
     <target name="compileLinkedList" description="Compile tests">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
             <classpath>
@@ -155,7 +155,7 @@
     </target>
     <!--endregion-->
 
-    <!--region Read Last Lines-->
+    <!--region Binary Search Tree-->
     <target name="compileBST" description="Compile tests">
         <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
             <classpath>
@@ -182,6 +182,40 @@
             <batchtest>
                 <fileset dir="${build.dir}">
                     <include name="BinarySearchTreeTest*" />
+                </fileset>
+            </batchtest>
+            <formatter type="plain" usefile="false" />
+        </junit>
+    </target>
+    <!--endregion-->
+
+    <!--region Binary Search Tree Map-->
+    <target name="compileBSTMap" description="Compile tests">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="com/inforscience/BinarySearchTreeMap.java" />
+        </javac>
+
+        <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="BinarySearchTreeMapTest.java" />
+        </javac>
+    </target>
+
+    <target name="BinarySearchTreeMapTest" depends="compileBSTMap" description="Run tests">
+        <junit>
+            <classpath>
+                <pathelement location="${classes.dir}" />
+                <pathelement location="${build.dir}" />
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${build.dir}">
+                    <include name="BinarySearchTreeMapTest*" />
                 </fileset>
             </batchtest>
             <formatter type="plain" usefile="false" />
