@@ -291,5 +291,40 @@
         </junit>
     </target>
     <!--endregion-->
+
+    <!--region Trie-->
+    <target name="compileTrie" description="Compile tests">
+        <javac srcdir="${src.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="com/inforscience/Trie.java" />
+        </javac>
+
+        <javac srcdir="${test.dir}" destdir="${build.dir}" includeantruntime="true">
+            <classpath>
+                <pathelement location="${classes.dir}" />
+            </classpath>
+            <include name="TrieTest.java" />
+        </javac>
+    </target>
+
+    <target name="TrieTest" depends="compileTrie" description="Run tests">
+        <junit>
+            <classpath>
+                <pathelement location="${classes.dir}" />
+                <pathelement location="${build.dir}" />
+            </classpath>
+
+            <batchtest>
+                <fileset dir="${build.dir}">
+                    <include name="TrieTest*" />
+                </fileset>
+            </batchtest>
+            <formatter type="plain" usefile="false" />
+        </junit>
+    </target>
+    <!--endregion-->
+
 </project>
 
